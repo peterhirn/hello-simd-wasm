@@ -1,6 +1,7 @@
 import { describe, expect, test } from "vitest";
 
-import { MAX_U32, alloc, initialize, simd, tryAlloc } from "./main.js";
+import { MAX_MEMORY, MAX_U32 } from "./limits.js";
+import { alloc, initialize, simd, tryAlloc } from "./main.js";
 
 describe("main", async () => {
   const exports = await initialize();
@@ -43,9 +44,7 @@ describe("main", async () => {
     expect(ptr1).toBeDefined();
     exports.drop(ptr1);
 
-    // see .cargo/config.toml
-    const maxMemory = 2_147_483_648;
-    expect(() => alloc(exports, maxMemory)).toThrow("Allocation failed");
+    expect(() => alloc(exports, MAX_MEMORY)).toThrow("Allocation failed");
 
     const ptr2 = exports.alloc(512 * 1024 * 1024);
     expect(ptr2).toBeDefined();

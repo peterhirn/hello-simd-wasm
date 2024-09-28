@@ -3,8 +3,8 @@ use std::{alloc::Layout, simd::f32x4};
 
 /// # Safety
 #[no_mangle]
-pub unsafe fn alloc(length: usize) -> *mut u8 {
-    let layout = Layout::array::<u8>(length).unwrap();
+pub unsafe fn alloc(size: usize) -> *mut u8 {
+    let layout = Layout::array::<u8>(size).unwrap();
     std::alloc::alloc(layout)
 }
 

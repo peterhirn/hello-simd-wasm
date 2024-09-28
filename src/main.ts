@@ -2,13 +2,14 @@ import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 
 import { type DisposableValue, disposable } from "./disposable.js";
+import { MAX_U32 } from "./limits.js";
 import { type Result, ResultError, error, ok, valueOrThrow } from "./result.js";
 
 export type Ptr = number;
 
 export interface Exports extends WebAssembly.Exports {
   memory: WebAssembly.Memory;
-  alloc(length: number): Ptr;
+  alloc(size: number): Ptr;
   drop(ptr: Ptr): void;
   simd(input: number): Ptr;
 }
@@ -29,8 +30,6 @@ export const initialize = async (): Promise<Exports> => {
 
 const isUnreachable = (e: unknown): boolean =>
   e instanceof Error && e?.message === "unreachable";
-
-export const MAX_U32 = 4_294_967_295;
 
 const validateAllocSize = (size: number): ResultError | undefined => {
   if (!Number.isInteger(size)) return error("Allocation size must be an integer");
