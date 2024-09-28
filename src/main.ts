@@ -12,6 +12,7 @@ export interface Exports extends WebAssembly.Exports {
   alloc(size: number): Ptr;
   drop(ptr: Ptr): void;
   simd(input: number): Ptr;
+  multivalue(input: number): [number, number];
 }
 
 export const instantiate = async (): Promise<WebAssembly.Instance> => {
@@ -72,3 +73,14 @@ export const trySimd = (
 
 export const simd = (exports: Exports, input: number): Dispose<Float32Array> =>
   valueOrThrow(trySimd(exports, input));
+
+export const multivalue = (exports: Exports, input: number): Result<unknown> => {
+  try {
+    const ptr = exports.multivalue(input);
+    console.log(ptr);
+    return ok();
+  } catch (e) {
+    if (isUnreachable(e)) return error("Multivalue test failed");
+    throw e;
+  }
+};

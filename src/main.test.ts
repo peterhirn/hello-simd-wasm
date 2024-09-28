@@ -58,4 +58,11 @@ describe("main", async () => {
     using result2 = simd(exports, 1.5);
     expect(result2.value).toEqual(new Float32Array([2.5, 3.5, 4.5, 5.5]));
   });
+
+  /*
+  test("multivalue test", () => {
+    const result1 = multivalue(exports, 1);
+    expect(result1.value).toEqual([2, 3]);
+  });
+    */
 });
