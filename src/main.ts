@@ -32,8 +32,6 @@ export const initialize = async (): Promise<Exports> => {
   return exports;
 };
 
-export type DisposablePtr = Disposable & { ptr: Ptr };
-
 export interface ResultOk<T> {
   success: true;
   error: never;
@@ -60,6 +58,8 @@ export const error = (error: string): ResultError =>
     error
   }) as ResultError;
 
+export type DisposablePtr = Disposable & { ptr: Ptr };
+
 export type AllocResult = Result<DisposablePtr>;
 
 export const MAX_U32 = 4_294_967_295;
@@ -76,9 +76,7 @@ export const tryAlloc = (exports: Exports, size: number): AllocResult => {
       [Symbol.dispose]: () => exports.drop(ptr)
     });
   } catch (e) {
-    if (e instanceof Error && e?.message === "unreachable")
-      return error("Allocation failed");
-    console.log(e);
+    if (isUnreachable(e)) return error("Allocation failed");
     throw e;
   }
 };
@@ -89,19 +87,29 @@ export const alloc = (exports: Exports, length: number): DisposablePtr => {
   throw Error(result.error);
 };
 
-export type DisposableSimdResult = Disposable & { data: Float32Array };
+const isUnreachable = (e: unknown) => e instanceof Error && e?.message === "unreachable";
 
-export const simd = (exports: Exports, input: number): DisposableSimdResult => {
-  const ptr = exports.simd(input);
-  const heap = new Float32Array(exports.memory.buffer);
-  const f32Ptr = ptr / Float32Array.BYTES_PER_ELEMENT;
-  const data = heap.slice(f32Ptr, f32Ptr + 4);
+type SimdTest = Disposable & { data: Float32Array };
 
-  return {
-    data,
-    [Symbol.dispose]: () => {
-      console.log("drop 🗑️", ptr);
-      exports.drop(ptr);
-    }
-  };
+export const trySimd = (exports: Exports, input: number): Result<SimdTest> => {
+  try {
+    const ptr = exports.simd(input);
+    const heap = new Float32Array(exports.memory.buffer);
+    const f32Ptr = ptr / Float32Array.BYTES_PER_ELEMENT;
+    const data = heap.slice(f32Ptr, f32Ptr + 4);
+
+    return ok({
+      data,
+      [Symbol.dispose]: () => exports.drop(ptr)
+    });
+  } catch (e) {
+    if (isUnreachable(e)) return error("SIMD test failed");
+    throw e;
+  }
+};
+
+export const simd = (exports: Exports, input: number): SimdTest => {
+  const result = trySimd(exports, input);
+  if (result.success) return result.value;
+  throw Error(result.error);
 };

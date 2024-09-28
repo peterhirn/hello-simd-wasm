@@ -27,7 +27,7 @@ describe("main", async () => {
     expect(ptr2.ptr).toEqual(ptr1);
   });
 
-  test("allocate size validation", () => {
+  test("validate allocation size ", () => {
     expect(tryAlloc(exports, -1).error).toEqual("Allocation size must be positive");
     expect(tryAlloc(exports, MAX_U32 + 1).error).toEqual("Allocation size is too large");
 
@@ -38,7 +38,7 @@ describe("main", async () => {
     expect(tryAlloc(exports, "asdf").error).toEqual("Allocation size must be an integer");
   });
 
-  test("allocate a large amount", () => {
+  test("allocate a large size", () => {
     const ptr1 = exports.alloc(500 * 1024 * 1024);
     expect(ptr1).toBeDefined();
     exports.drop(ptr1);
