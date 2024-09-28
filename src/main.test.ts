@@ -20,11 +20,11 @@ describe("main", async () => {
     {
       using ptr = alloc(exports, 10);
       expect(ptr).toBeDefined();
-      ptr1 = ptr.ptr;
+      ptr1 = ptr.value;
     }
 
     using ptr2 = alloc(exports, 10);
-    expect(ptr2.ptr).toEqual(ptr1);
+    expect(ptr2.value).toEqual(ptr1);
   });
 
   test("validate allocation size ", () => {
@@ -54,9 +54,9 @@ describe("main", async () => {
 
   test("simd test", () => {
     using result1 = simd(exports, 1);
-    expect(result1.data).toEqual(new Float32Array([2, 3, 4, 5]));
+    expect(result1.value).toEqual(new Float32Array([2, 3, 4, 5]));
 
     using result2 = simd(exports, 1.5);
-    expect(result2.data).toEqual(new Float32Array([2.5, 3.5, 4.5, 5.5]));
+    expect(result2.value).toEqual(new Float32Array([2.5, 3.5, 4.5, 5.5]));
   });
 });
