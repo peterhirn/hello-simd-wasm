@@ -34,12 +34,59 @@ export const initialize = async (): Promise<Exports> => {
 
 export type DisposablePtr = Disposable & { ptr: Ptr };
 
+export interface ResultOk<T> {
+  success: true;
+  error: never;
+  value: T;
+}
+
+export interface ResultError {
+  success: false;
+  error: string;
+  value: never;
+}
+
+export type Result<T> = ResultOk<T> | ResultError;
+
+export const ok = <T>(value: T): ResultOk<T> =>
+  ({
+    success: true,
+    value
+  }) as ResultOk<T>;
+
+export const error = (error: string): ResultError =>
+  ({
+    success: false,
+    error
+  }) as ResultError;
+
+export type AllocResult = Result<DisposablePtr>;
+
+export const MAX_U32 = 4_294_967_295;
+
+export const tryAlloc = (exports: Exports, size: number): AllocResult => {
+  if (!Number.isInteger(size)) return error("Allocation size must be an integer");
+  if (size < 1) return error("Allocation size must be positive");
+  if (size > MAX_U32) return error("Allocation size is too large");
+
+  try {
+    const ptr = exports.alloc(size);
+    return ok({
+      ptr,
+      [Symbol.dispose]: () => exports.drop(ptr)
+    });
+  } catch (e) {
+    if (e instanceof Error && e?.message === "unreachable")
+      return error("Allocation failed");
+    console.log(e);
+    throw e;
+  }
+};
+
 export const alloc = (exports: Exports, length: number): DisposablePtr => {
-  const ptr = exports.alloc(length);
-  return {
-    ptr,
-    [Symbol.dispose]: () => exports.drop(ptr)
-  };
+  const result = tryAlloc(exports, length);
+  if (result.success) return result.value;
+  throw Error(result.error);
 };
 
 export type DisposableSimdResult = Disposable & { data: Float32Array };
