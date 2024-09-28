@@ -1,5 +1,5 @@
 #![feature(portable_simd)]
-use std::simd::f32x4;
+use std::{alloc::Layout, simd::f32x4};
 
 #[no_mangle]
 pub fn initialize() {}
@@ -13,8 +13,13 @@ pub fn test(input: f32) -> *mut [f32; 4] {
 
 /// # Safety
 #[no_mangle]
+pub unsafe fn alloc(length: usize) -> *mut u8 {
+    let layout = Layout::array::<u8>(length).unwrap();
+    std::alloc::alloc(layout)
+}
+
+/// # Safety
+#[no_mangle]
 pub unsafe fn drop(ptr: *mut u32) {
-    unsafe {
-        let _ = Box::from_raw(ptr);
-    }
+    let _ = Box::from_raw(ptr);
 }

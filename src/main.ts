@@ -11,6 +11,7 @@ export type DisposablePtr = Disposable & { ptr: Ptr };
 export interface Exports extends WebAssembly.Exports {
   memory: WebAssembly.Memory;
   initialize(): void;
+  alloc(length: number): Ptr;
   drop(ptr: Ptr): void;
   test(input: number): Ptr;
 }
@@ -28,6 +29,13 @@ export const instantiate = async (): Promise<WebAssembly.Instance> => {
   return instance;
 };
 
+export const initialize = async (): Promise<Exports> => {
+  const instance = await instantiate();
+  const exports = instance.exports as Exports;
+  exports.initialize();
+  return exports;
+};
+
 export const test = (exports: Exports, input: number): DisposablePtr => {
   const ptr = exports.test(input);
   console.log("allocated 👉", ptr);
@@ -41,9 +49,7 @@ export const test = (exports: Exports, input: number): DisposablePtr => {
 };
 
 export const main = async (): Promise<void> => {
-  const instance = await instantiate();
-  const exports = instance.exports as Exports;
-  exports.initialize();
+  const exports = await initialize();
 
   const f32Heap = () => new Float32Array(exports.memory.buffer);
 
