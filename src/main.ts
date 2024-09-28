@@ -1,6 +1,8 @@
 import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 
+import { type Result, error, ok, valueOrThrow } from "./result.js";
+
 // @ts-expect-error Polyfill `Symbol.dispose`
 Symbol.dispose ??= Symbol("Symbol.dispose");
 
@@ -32,32 +34,6 @@ export const initialize = async (): Promise<Exports> => {
   return exports;
 };
 
-export interface ResultOk<T> {
-  success: true;
-  error: never;
-  value: T;
-}
-
-export interface ResultError {
-  success: false;
-  error: string;
-  value: never;
-}
-
-export type Result<T> = ResultOk<T> | ResultError;
-
-export const ok = <T>(value: T): ResultOk<T> =>
-  ({
-    success: true,
-    value
-  }) as ResultOk<T>;
-
-export const error = (error: string): ResultError =>
-  ({
-    success: false,
-    error
-  }) as ResultError;
-
 const isUnreachable = (e: unknown) => e instanceof Error && e?.message === "unreachable";
 
 type DisposableValue<T> = Disposable & { value: T };
@@ -85,11 +61,8 @@ export const tryAlloc = (exports: Exports, size: number): AllocResult => {
   }
 };
 
-export const alloc = (exports: Exports, length: number): DisposableValue<Ptr> => {
-  const result = tryAlloc(exports, length);
-  if (result.success) return result.value;
-  throw Error(result.error);
-};
+export const alloc = (exports: Exports, length: number): DisposableValue<Ptr> =>
+  valueOrThrow(tryAlloc(exports, length));
 
 export const trySimd = (
   exports: Exports,
@@ -108,8 +81,5 @@ export const trySimd = (
   }
 };
 
-export const simd = (exports: Exports, input: number): DisposableValue<Float32Array> => {
-  const result = trySimd(exports, input);
-  if (result.success) return result.value;
-  throw Error(result.error);
-};
+export const simd = (exports: Exports, input: number): DisposableValue<Float32Array> =>
+  valueOrThrow(trySimd(exports, input));
