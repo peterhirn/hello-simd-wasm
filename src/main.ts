@@ -1,9 +1,9 @@
 import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 
-import { type DisposableValue, disposable } from "./disposable.js";
+import { type Dispose, disposable } from "./disposable.js";
 import { MAX_U32 } from "./limits.js";
-import { type Result, ResultError, error, ok, valueOrThrow } from "./result.js";
+import { type Result, error, ok, valueOrThrow } from "./result.js";
 
 export type Ptr = number;
 
@@ -24,25 +24,22 @@ export const instantiate = async (): Promise<WebAssembly.Instance> => {
 
 export const initialize = async (): Promise<Exports> => {
   const instance = await instantiate();
-  const exports = instance.exports as Exports;
-  return exports;
+  return instance.exports as Exports;
 };
 
 const isUnreachable = (e: unknown): boolean =>
   e instanceof Error && e?.message === "unreachable";
 
-const validateAllocSize = (size: number): ResultError | undefined => {
+const validateAllocSize = (size: number): Result => {
   if (!Number.isInteger(size)) return error("Allocation size must be an integer");
   if (size < 1) return error("Allocation size must be positive");
   if (size > MAX_U32) return error("Allocation size is too large");
+  return ok();
 };
 
-export const tryAlloc = (
-  exports: Exports,
-  size: number
-): Result<DisposableValue<Ptr>> => {
+export const tryAlloc = (exports: Exports, size: number): Result<Dispose<Ptr>> => {
   const sizeError = validateAllocSize(size);
-  if (sizeError) return sizeError;
+  if (!sizeError.success) return sizeError;
 
   try {
     const ptr = exports.alloc(size);
@@ -53,13 +50,13 @@ export const tryAlloc = (
   }
 };
 
-export const alloc = (exports: Exports, length: number): DisposableValue<Ptr> =>
+export const alloc = (exports: Exports, length: number): Dispose<Ptr> =>
   valueOrThrow(tryAlloc(exports, length));
 
 export const trySimd = (
   exports: Exports,
   input: number
-): Result<DisposableValue<Float32Array>> => {
+): Result<Dispose<Float32Array>> => {
   try {
     const ptr = exports.simd(input);
     const heap = new Float32Array(exports.memory.buffer);
@@ -73,5 +70,5 @@ export const trySimd = (
   }
 };
 
-export const simd = (exports: Exports, input: number): DisposableValue<Float32Array> =>
+export const simd = (exports: Exports, input: number): Dispose<Float32Array> =>
   valueOrThrow(trySimd(exports, input));

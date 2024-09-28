@@ -10,9 +10,9 @@ export interface ResultError {
   value: never;
 }
 
-export type Result<T> = ResultOk<T> | ResultError;
+export type Result<T = never> = ResultOk<T> | ResultError;
 
-export const ok = <T>(value: T): ResultOk<T> =>
+export const ok = <T>(value?: T): ResultOk<T> =>
   ({
     success: true,
     value
