@@ -1,10 +1,8 @@
 import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 
-import { type Result, error, ok, valueOrThrow } from "./result.js";
-
-// @ts-expect-error Polyfill `Symbol.dispose`
-Symbol.dispose ??= Symbol("Symbol.dispose");
+import { type DisposableValue, disposable } from "./disposable.js";
+import { type Result, ResultError, error, ok, valueOrThrow } from "./result.js";
 
 export type Ptr = number;
 
@@ -14,11 +12,6 @@ export interface Exports extends WebAssembly.Exports {
   drop(ptr: Ptr): void;
   simd(input: number): Ptr;
 }
-
-export const toHex = (array: Uint8Array): string =>
-  Array.from(array)
-    .map((b) => b.toString(16).padStart(2, "0"))
-    .join("");
 
 export const instantiate = async (): Promise<WebAssembly.Instance> => {
   const path = resolve(import.meta.dirname, "..", "dist", "main.wasm");
@@ -34,23 +27,23 @@ export const initialize = async (): Promise<Exports> => {
   return exports;
 };
 
-const isUnreachable = (e: unknown) => e instanceof Error && e?.message === "unreachable";
-
-type DisposableValue<T> = Disposable & { value: T };
-
-const disposable = <T>(value: T, dispose: () => void): DisposableValue<T> => ({
-  value,
-  [Symbol.dispose]: dispose
-});
-
-export type AllocResult = Result<DisposableValue<Ptr>>;
+const isUnreachable = (e: unknown): boolean =>
+  e instanceof Error && e?.message === "unreachable";
 
 export const MAX_U32 = 4_294_967_295;
 
-export const tryAlloc = (exports: Exports, size: number): AllocResult => {
+const validateAllocSize = (size: number): ResultError | undefined => {
   if (!Number.isInteger(size)) return error("Allocation size must be an integer");
   if (size < 1) return error("Allocation size must be positive");
   if (size > MAX_U32) return error("Allocation size is too large");
+};
+
+export const tryAlloc = (
+  exports: Exports,
+  size: number
+): Result<DisposableValue<Ptr>> => {
+  const sizeError = validateAllocSize(size);
+  if (sizeError) return sizeError;
 
   try {
     const ptr = exports.alloc(size);
