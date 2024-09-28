@@ -38,8 +38,8 @@ const validateAllocSize = (size: number): Result => {
 };
 
 export const tryAlloc = (exports: Exports, size: number): Result<Dispose<Ptr>> => {
-  const sizeError = validateAllocSize(size);
-  if (!sizeError.success) return sizeError;
+  const validate = validateAllocSize(size);
+  if (!validate.ok) return validate;
 
   try {
     const ptr = exports.alloc(size);

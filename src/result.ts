@@ -1,11 +1,11 @@
 export interface ResultOk<T> {
-  success: true;
+  ok: true;
   error: never;
   value: T;
 }
 
 export interface ResultError {
-  success: false;
+  ok: false;
   error: string;
   value: never;
 }
@@ -14,17 +14,17 @@ export type Result<T = never> = ResultOk<T> | ResultError;
 
 export const ok = <T>(value?: T): ResultOk<T> =>
   ({
-    success: true,
+    ok: true,
     value
   }) as ResultOk<T>;
 
 export const error = (error: string): ResultError =>
   ({
-    success: false,
+    ok: false,
     error
   }) as ResultError;
 
 export const valueOrThrow = <T>(result: Result<T>): T => {
-  if (result.success) return result.value;
+  if (result.ok) return result.value;
   throw Error(result.error);
 };
