@@ -55,3 +55,4 @@ Output
 - https://nickb.dev/blog/authoring-a-simd-enhanced-wasm-library-with-rust/
 - https://rustwasm.github.io/book/reference/code-size.html
 - https://book.leptos.dev/deployment/binary_size.html
+- https://github.com/rust-lang/portable-simd
