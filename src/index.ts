@@ -1,3 +1,1 @@
-import { main } from "./main.js";
-
-await main();
+export { alloc, initialize, simd } from "./main.js";
