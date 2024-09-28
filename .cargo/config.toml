@@ -4,7 +4,7 @@ target = ["wasm32-unknown-unknown"]
 [target.wasm32-unknown-unknown]
 rustflags = [
   "-C",
-  "target-feature=+simd128,+bulk-memory",
+  "target-feature=+simd128,+bulk-memory,+multivalue",
   "-C",
   "link-args=--initial-memory=16777216",
 ]

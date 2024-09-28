@@ -1,0 +1,64 @@
+{
+  "type": "module",
+  "name": "@peterhirn/hello-simd-wasm",
+  "version": "0.0.0",
+  "license": "MIT",
+  "description": "Hello SIMD WebAssembly",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/peterhirn/hello-simd-wasm.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "wasm",
+    "webassembly",
+    "simd",
+    "rust"
+  ],
+  "types": "./dist/index.d.ts",
+  "module": "./dist/index.js",
+  "exports": {
+    ".": "./dist/index.js",
+    "./node": "./dist/node.js",
+    "./fetch": "./dist/fetch.js",
+    "./main.wasm": "./dist/main.wasm"
+  },
+  "scripts": {
+    "dev": "pnpm build && node dist/index.js",
+    "build": "tsc --build",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "test": "vitest --run",
+    "test:dev": "vitest",
+    "test:coverage": "vitest --run --coverage src",
+    "bench": "pnpm vitest bench --run",
+    "format": "prettier --write \"**/*.{js,ts,tsx,json,css,yml,yaml}\"",
+    "format:check": "prettier --check \"**/*.{js,ts,tsx,json,css,yml,yaml}\"",
+    "check": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm test"
+  },
+  "devDependencies": {
+    "@eslint/js": "9.11.1",
+    "@trivago/prettier-plugin-sort-imports": "4.3.0",
+    "@types/eslint__js": "8.42.3",
+    "@types/node": "22.7.4",
+    "@vitest/coverage-v8": "2.1.1",
+    "eslint": "9.11.1",
+    "globals": "15.9.0",
+    "prettier": "3.3.3",
+    "typescript": "5.6.2",
+    "typescript-eslint": "8.7.0",
+    "vitest": "2.1.1"
+  },
+  "pnpm": {
+    "ignoredOptionalDependencies": [
+      "@pkgjs/parseargs",
+      "fsevents"
+    ]
+  },
+  "packageManager": "pnpm@9.11.0+sha512.0a203ffaed5a3f63242cd064c8fb5892366c103e328079318f78062f24ea8c9d50bc6a47aa3567cabefd824d170e78fa2745ed1f16b132e16436146b7688f19b"
+}
