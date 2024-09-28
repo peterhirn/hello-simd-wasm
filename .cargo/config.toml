@@ -1,12 +1,14 @@
 [build]
-target = ["wasm32-unknown-unknown"]
+target = ["wasm32-wasip1"]
 
-[target.wasm32-unknown-unknown]
+[target.wasm32-wasip1]
 rustflags = [
   "-C",
   "target-feature=+simd128,+bulk-memory,+multivalue",
   "-C",
   "link-args=--initial-memory=16777216",
+  "-C",
+  "link-args=--max-memory=2147483648",
 ]
 
 [unstable]

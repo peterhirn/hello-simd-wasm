@@ -10,6 +10,9 @@ path = "wasm/lib.rs"
 [profile.release]
 opt-level = 3
 lto = "fat"
-strip = "debuginfo"
+strip = true
 codegen-units = 1
 panic = "abort"
+
+[profile.dev]
+codegen-units = 1
