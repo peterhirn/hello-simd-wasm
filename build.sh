@@ -7,7 +7,6 @@ mkdir -p dist
 
 wasm-opt -O3 \
   --enable-simd \
-  --enable-threads \
   --enable-bulk-memory \
   -o dist/main.wasm \
   target/wasm32-unknown-unknown/release/hello_simd_wasm.wasm
