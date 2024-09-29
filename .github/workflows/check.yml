@@ -19,13 +19,20 @@ jobs:
       - name: Setup binaryen
         uses: ./.github/actions/binaryen
 
-      - name: Build WASM
+      - name: Build wasm
         run: ./build.sh
+
+      - name: Upload wasm
+        uses: actions/upload-artifact@v4
+        with:
+          name: main.wasm
+          path: dist/main.wasm
+          retention-days: 5
 
       - name: Setup wasmtime
         uses: bytecodealliance/actions/wasmtime/setup@d742827944dcb656569399571a8a45261b5089f6 # v1
 
-      - name: Test WASM
+      - name: Test wasm
         run: cargo test
 
       - name: Restore
