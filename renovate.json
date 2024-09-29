@@ -27,12 +27,15 @@
       "matchStrings": ["VERSION: (?<currentValue>.+?)\\n"],
       "versioningTemplate": "regex:^version_(?<minor>\\d+})$",
       "depNameTemplate": "binaryen",
-      "lookupNameTemplate": "WebAssembly/binaryen",
+      "packageNameTemplate": "WebAssembly/binaryen",
       "datasourceTemplate": "github-releases"
     }
   ],
   "packageRules": [
-    { "matchDepNames": ["node"], "ignoreUnstable": false },
+    {
+      "matchDepNames": ["node"],
+      "ignoreUnstable": false
+    },
     {
       "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
       "matchCurrentVersion": "!/^0/",
