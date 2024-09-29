@@ -2,6 +2,7 @@
 target = ["wasm32-wasip1"]
 
 [target.wasm32-wasip1]
+runner = "wasmtime run --dir ."
 rustflags = [
   "-C",
   "target-feature=+simd128,+bulk-memory,+multivalue",

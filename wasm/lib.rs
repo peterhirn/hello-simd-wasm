@@ -30,3 +30,14 @@ pub fn multivalue(input: u32) -> (u32, u32) {
 pub fn flip(a: u32, b: u32) -> (u32, u32) {
     (b, a)
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn it_works() {
+        let result = flip(1, 2);
+        assert_eq!(result, (2, 1));
+    }
+}
