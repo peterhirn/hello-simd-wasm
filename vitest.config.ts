@@ -10,7 +10,7 @@ export default defineConfig({
     },
     coverage: {
       all: true,
-      include: ["wasm/**"],
+      include: ["src/**"],
       reportsDirectory: "coverage",
       reporter: ["text", "cobertura", "html"]
     }
