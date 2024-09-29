@@ -20,6 +20,15 @@
       "versioningTemplate": "regex:^(?<major>\\d{4})-(?<minor>\\d{2})-(?<patch>\\d{2})$",
       "datasourceTemplate": "custom.rust-nightly",
       "depNameTemplate": "rust-nightly"
+    },
+    {
+      "customType": "regex",
+      "fileMatch": ["^\\.github/actions/binaryen/action\\.yml$"],
+      "matchStrings": ["VERSION: (?<currentValue>.+)\\n"],
+      "versioningTemplate": "regex:^version_(?<major>\\d+)$",
+      "packageNameTemplate": "WebAssembly/binaryen",
+      "datasourceTemplate": "github-releases",
+      "depNameTemplate": "binaryen"
     }
   ],
   "packageRules": [
@@ -27,6 +36,10 @@
     {
       "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
       "matchCurrentVersion": "!/^0/",
+      "automerge": true
+    },
+    {
+      "matchDepNames": "binaryen",
       "automerge": true
     }
   ]
