@@ -1,6 +1,7 @@
-/target
-/dist
-/node_modules
+target/
+dist/
+node_modules/
+coverage/
 
 tsconfig.tsbuildinfo
 junit.xml

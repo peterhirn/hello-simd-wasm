@@ -3,7 +3,7 @@ set -eu
 
 TARGET=target/wasm32-wasip1/release/hello_simd_wasm.wasm
 
-cargo +nightly build --release
+cargo build --release
 
 mkdir -p dist
 

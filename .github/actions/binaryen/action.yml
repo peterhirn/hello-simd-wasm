@@ -1,0 +1,16 @@
+name: binaryen
+
+runs:
+  using: composite
+  steps:
+    - name: Setup binaryen
+      shell: bash
+      env:
+        VERSION: version_118
+      run: |
+        mkdir -p binaryen
+        curl -L --no-progress-meter --fail-with-body \
+          https://github.com/WebAssembly/binaryen/releases/download/${VERSION}/binaryen-${VERSION}-x86_64-linux.tar.gz \
+        | tar zxv -C binaryen --strip-components 2 binaryen-${VERSION}/bin/
+
+        echo binaryen >> $GITHUB_PATH
