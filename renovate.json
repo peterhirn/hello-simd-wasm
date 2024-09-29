@@ -34,7 +34,7 @@
   "packageRules": [
     { "matchDepNames": ["node"], "ignoreUnstable": false },
     {
-      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest", "pinDigest"],
       "matchCurrentVersion": "!/^0/",
       "automerge": true
     },
