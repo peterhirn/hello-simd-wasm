@@ -6,7 +6,7 @@ runs:
     - name: Setup binaryen
       shell: bash
       env:
-        VERSION: version_118
+        VERSION: version_119
       run: |
         mkdir -p binaryen
         curl -L --no-progress-meter --fail-with-body \
