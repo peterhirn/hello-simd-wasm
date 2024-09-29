@@ -16,7 +16,7 @@ jobs:
       - name: Rustup
         uses: actions-rust-lang/setup-rust-toolchain@4d1965c9142484e48d40c19de54b5cba84953a06 # v1
 
-      - name: Binaryen
+      - name: Setup binaryen
         uses: ./.github/actions/binaryen
 
       - name: Build WASM
@@ -24,6 +24,9 @@ jobs:
 
       - name: Setup wasmtime
         uses: bytecodealliance/actions/wasmtime/setup@d742827944dcb656569399571a8a45261b5089f6 # v1
+
+      - name: Test WASM
+        run: cargo test
 
       - name: Restore
         uses: ./.github/actions/restore
