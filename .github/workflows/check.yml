@@ -14,7 +14,7 @@ jobs:
         run: echo "SOURCE_DATE_EPOCH=$(git log -1 --pretty=%ct)" >> $GITHUB_ENV
 
       - name: Rustup
-        uses: actions-rust-lang/setup-rust-toolchain@v1
+        uses: actions-rust-lang/setup-rust-toolchain@4d1965c9142484e48d40c19de54b5cba84953a06 # v1
 
       - name: Binaryen
         uses: ./.github/actions/binaryen
@@ -23,7 +23,7 @@ jobs:
         run: ./build.sh
 
       - name: Setup wasmtime
-        uses: bytecodealliance/actions/wasmtime/setup@v1
+        uses: bytecodealliance/actions/wasmtime/setup@d742827944dcb656569399571a8a45261b5089f6 # v1
 
       - name: Restore
         uses: ./.github/actions/restore
