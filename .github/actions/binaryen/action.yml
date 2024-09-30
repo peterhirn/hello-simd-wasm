@@ -3,6 +3,12 @@ name: binaryen
 runs:
   using: composite
   steps:
+    - name: Setup binaryen cache
+      uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4
+      with:
+        path: ${{ runner.tool_cache }}/binaryen
+        key: ${{ runner.os }}-binaryen
+
     - name: Setup binaryen
       shell: bash
       env:
