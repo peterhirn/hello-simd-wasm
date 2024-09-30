@@ -8,7 +8,7 @@ runs:
       env:
         VERSION: version_119
       run: |
-        TOOL_PATH="${RUNNER_TOOL_CACHE:?}/binaryen/${VERSION:?}/${RUNNER_ARCH:?}-${RUNNER_OS:?}"
+        TOOL_PATH="${RUNNER_TOOL_CACHE:?}/binaryen/${VERSION:?}/${RUNNER_ARCH:?}"
         TOOL_PATH_COMPLETE="${TOOL_PATH}.complete"
 
         echo "${TOOL_PATH}" >> $GITHUB_PATH
