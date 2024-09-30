@@ -8,9 +8,16 @@ runs:
       env:
         VERSION: version_119
       run: |
-        mkdir -p binaryen
+        TOOL_PATH="${RUNNER_TOOL_CACHE:?}/binaryen/${VERSION:?}/${RUNNER_ARCH:?}-${RUNNER_OS:?}"
+        TOOL_PATH_COMPLETE="${TOOL_PATH}.complete"
+
+        echo "${TOOL_PATH}" >> $GITHUB_PATH
+        [ -f "${TOOL_PATH_COMPLETE}" ] && exit 0
+
+        mkdir -p "${TOOL_PATH}"
+
         curl -L --no-progress-meter --fail-with-body \
           https://github.com/WebAssembly/binaryen/releases/download/${VERSION}/binaryen-${VERSION}-x86_64-linux.tar.gz \
-        | tar zxv -C binaryen --strip-components 2 binaryen-${VERSION}/bin/
+        | tar zxv -C "${TOOL_PATH}" --strip-components 2 binaryen-${VERSION}/bin/
 
-        echo binaryen >> $GITHUB_PATH
+        touch "${TOOL_PATH_COMPLETE}"
