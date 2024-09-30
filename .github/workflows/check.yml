@@ -13,11 +13,11 @@ jobs:
       - name: Export commit timestamp
         run: echo "SOURCE_DATE_EPOCH=$(git log -1 --pretty=%ct)" >> $GITHUB_ENV
 
-      - name: Rustup
-        uses: actions-rust-lang/setup-rust-toolchain@4d1965c9142484e48d40c19de54b5cba84953a06 # v1
-
       - name: Setup binaryen
         uses: ./.github/actions/binaryen
+
+      - name: Rustup
+        uses: actions-rust-lang/setup-rust-toolchain@4d1965c9142484e48d40c19de54b5cba84953a06 # v1
 
       - name: Build wasm
         run: ./build.sh
