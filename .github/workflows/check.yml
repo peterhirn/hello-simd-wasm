@@ -17,7 +17,7 @@ jobs:
         uses: phi-ag/setup-binaryen@b42153f0f5ebb8b3464e519c8f7479318faed40d # v1
 
       - name: Rustup
-        uses: actions-rust-lang/setup-rust-toolchain@4d1965c9142484e48d40c19de54b5cba84953a06 # v1
+        uses: actions-rust-lang/setup-rust-toolchain@11df97af8e8102fd60b60a77dfbf58d40cd843b8 # v1
 
       - name: Build wasm
         run: ./build.sh
