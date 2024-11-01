@@ -42,12 +42,12 @@
     "check": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm test"
   },
   "devDependencies": {
-    "@eslint/js": "9.13.0",
+    "@eslint/js": "9.14.0",
     "@trivago/prettier-plugin-sort-imports": "4.3.0",
     "@types/eslint__js": "8.42.3",
     "@types/node": "22.8.6",
     "@vitest/coverage-v8": "2.1.4",
-    "eslint": "9.13.0",
+    "eslint": "9.14.0",
     "globals": "15.11.0",
     "prettier": "3.3.3",
     "typescript": "5.6.3",
