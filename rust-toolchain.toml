@@ -1,5 +1,5 @@
 [toolchain]
-channel = "nightly-2024-11-11"
+channel = "nightly-2024-11-12"
 targets = ["wasm32-wasip1"]
 components = ["rust-src"]
 profile = "minimal"
