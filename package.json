@@ -46,13 +46,13 @@
     "@trivago/prettier-plugin-sort-imports": "4.3.0",
     "@types/eslint__js": "8.42.3",
     "@types/node": "22.10.1",
-    "@vitest/coverage-v8": "2.1.6",
+    "@vitest/coverage-v8": "2.1.8",
     "eslint": "9.16.0",
     "globals": "15.13.0",
     "prettier": "3.4.1",
     "typescript": "5.7.2",
     "typescript-eslint": "8.16.0",
-    "vitest": "2.1.6"
+    "vitest": "2.1.8"
   },
   "pnpm": {
     "ignoredOptionalDependencies": [
