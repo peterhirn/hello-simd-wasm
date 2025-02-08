@@ -30,7 +30,7 @@ jobs:
           retention-days: 5
 
       - name: Setup wasmtime
-        uses: bytecodealliance/actions/wasmtime/setup@d742827944dcb656569399571a8a45261b5089f6 # v1
+        uses: bytecodealliance/actions/wasmtime/setup@3b93676295fd6f7eaa7af2c2785539e052fa8349 # v1
 
       - name: Test wasm
         run: cargo test
