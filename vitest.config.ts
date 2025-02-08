@@ -4,7 +4,7 @@ export default defineConfig({
   clearScreen: false,
   test: {
     include: ["src/**/*.test.ts"],
-    reporters: ["basic", "junit"],
+    reporters: ["default", "junit"],
     outputFile: {
       junit: "junit.xml"
     },
