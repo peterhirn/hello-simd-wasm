@@ -14,7 +14,7 @@ jobs:
         run: echo "SOURCE_DATE_EPOCH=$(git log -1 --pretty=%ct)" >> $GITHUB_ENV
 
       - name: Setup binaryen
-        uses: phi-ag/setup-binaryen@dfd71947073497698cbda7cfb841946850e44da0 # v1
+        uses: phi-ag/setup-binaryen@0666083925568d44cdc474817821fd2dbb1a5096 # v1
 
       - name: Rustup
         uses: actions-rust-lang/setup-rust-toolchain@9399c7bb15d4c7d47b27263d024f0a4978346ba4 # v1
