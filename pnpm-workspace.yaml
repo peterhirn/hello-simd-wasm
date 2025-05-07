@@ -1,0 +1,8 @@
+savePrefix: ""
+autoInstallPeers: false
+strictPeerDependencies: true
+ignoredOptionalDependencies:
+  - "@pkgjs/parseargs"
+  - fsevents
+ignoredBuiltDependencies:
+  - esbuild
