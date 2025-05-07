@@ -15,16 +15,16 @@
   "customManagers": [
     {
       "customType": "regex",
-      "fileMatch": ["^rust-toolchain.toml$"],
-      "matchStrings": ["channel = \"nightly-(?<currentValue>.+?)\"\\n"],
+      "managerFilePatterns": ["rust-toolchain.toml"],
+      "matchStrings": ["channel = \"nightly-(?<currentValue>[^\"]+)\""],
       "versioningTemplate": "regex:^(?<major>\\d{4})-(?<minor>\\d{2})-(?<patch>\\d{2})$",
       "datasourceTemplate": "custom.rust-nightly",
       "depNameTemplate": "rust-nightly"
     },
     {
       "customType": "regex",
-      "fileMatch": ["^\\.github/actions/binaryen/action\\.yml$"],
-      "matchStrings": ["VERSION: (?<currentValue>.+)\\n"],
+      "managerFilePatterns": [".github/actions/binaryen/action.yml"],
+      "matchStrings": ["VERSION: (?<currentValue>[^\\s]+)"],
       "versioningTemplate": "regex:^version_(?<major>\\d+)$",
       "packageNameTemplate": "WebAssembly/binaryen",
       "datasourceTemplate": "github-releases",
