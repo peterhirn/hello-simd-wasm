@@ -34,8 +34,13 @@
       "automerge": true
     },
     {
-      "matchDepNames": "binaryen",
+      "matchDepNames": ["binaryen", "rust-nightly"],
       "automerge": true
+    },
+    {
+      "matchDepNames": "rust-nightly",
+      "description": "Schedule Rust nightly updates on Sunday",
+      "schedule": ["* 21-23 * * 0"]
     }
   ]
 }
