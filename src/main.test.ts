@@ -17,7 +17,7 @@ describe("main", async () => {
   });
 
   test("allocate smart pointer", () => {
-    let ptr1 = 0;
+    let ptr1;
     {
       using ptr = alloc(exports, 10);
       expect(ptr).toBeDefined();

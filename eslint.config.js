@@ -9,8 +9,8 @@ export default defineConfig(
     ignores: ["wasm/**", "dist/**", "target/**"]
   },
   eslint.configs.recommended,
-  ...tseslint.configs.strict,
-  ...tseslint.configs.stylistic,
+  tseslint.configs.strict,
+  tseslint.configs.stylistic,
   {
     files: ["**/*.js"],
     languageOptions: {
