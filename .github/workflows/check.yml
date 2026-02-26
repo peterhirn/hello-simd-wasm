@@ -43,13 +43,11 @@ jobs:
         run: pnpm audit
 
       - name: Format
-        continue-on-error: true
         run: |
           pnpm format:check
           cargo fmt --check
 
       - name: Lint
-        continue-on-error: true
         run: |
           pnpm lint
           cargo clippy -- -D warnings
