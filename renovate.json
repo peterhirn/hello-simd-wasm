@@ -39,9 +39,9 @@
       "automerge": true
     },
     {
+      "description": "Limit Rust nightly updates to the 1st and 15th of each month",
       "matchDepNames": "rust-nightly",
-      "description": "Schedule Rust nightly updates on Sunday",
-      "schedule": ["* 21-23 * * 0"]
+      "allowedVersions": "/01|15$/"
     }
   ]
 }
