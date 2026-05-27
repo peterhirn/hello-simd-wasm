@@ -12,21 +12,6 @@
     "enabled": true,
     "automerge": true
   },
-  "customDatasources": {
-    "rust-nightly": {
-      "defaultRegistryUrlTemplate": "https://renovate-rust-nightly.phi-ag.workers.dev"
-    }
-  },
-  "customManagers": [
-    {
-      "customType": "regex",
-      "managerFilePatterns": ["rust-toolchain.toml"],
-      "matchStrings": ["channel = \"nightly-(?<currentValue>[^\"]+)\""],
-      "versioningTemplate": "regex:^(?<major>\\d{4})-(?<minor>\\d{2})-(?<patch>\\d{2})$",
-      "datasourceTemplate": "custom.rust-nightly",
-      "depNameTemplate": "rust-nightly"
-    }
-  ],
   "packageRules": [
     { "matchDepNames": ["node"], "ignoreUnstable": false },
     {
@@ -40,7 +25,7 @@
     },
     {
       "description": "Limit Rust nightly updates to the 1st and 15th of each month",
-      "matchDepNames": "rust-nightly",
+      "matchDepNames": "rust",
       "allowedVersions": "/01|15$/"
     }
   ]
